@@ -189,3 +189,23 @@ class LineExpanderBars {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+    leb : LineExpanderBars = new LineExpanderBars()
+    animator : Animator = new Animator()
+    render(context : CanvasRenderingContext2D) {
+        this.leb.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.leb.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.leb.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
