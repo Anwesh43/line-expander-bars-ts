@@ -30,7 +30,7 @@ const drawLEBNode : Function = (context : CanvasRenderingContext2D, i : number, 
     const xGap : number = (size) / (lines + 1)
     context.save()
     context.translate(gap * (i + 1), h/2)
-    context.rotate(Math.PI/2 * sc1)
+    context.rotate(Math.PI/2 * sc2)
     for (var j = 0; j < lines; j++) {
         const sc = divideScale(sc1, j, lines)
         context.save()
@@ -39,7 +39,7 @@ const drawLEBNode : Function = (context : CanvasRenderingContext2D, i : number, 
             const x : number = jGap * (1 - 2 * (k % 2)) * sc
             context.beginPath()
             context.moveTo(0,0)
-            context.lineTo(0, x)
+            context.lineTo(x, 0)
             context.stroke()
             context.save()
             context.translate(x, 0)
@@ -94,7 +94,8 @@ class State {
     prevScale : number = 0
 
     update(cb : Function) {
-        this.scale += updateScale(this.scale, lines, 1)
+        this.scale += updateScale(this.scale, this.dir, lines, 1)
+        console.log(this.scale)
         if (Math.abs(this.scale - this.prevScale) > 1) {
             this.scale = this.prevScale + this.dir
             this.dir = 0
